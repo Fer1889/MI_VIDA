@@ -51,7 +51,7 @@
       ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('✨ ♡ ✨', canvas.width / 2, canvas.height / 2);
+      ctx.fillText(' ♡ ', canvas.width / 2, canvas.height / 2);
     }
 
     function getPos(e) {

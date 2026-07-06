@@ -1,6 +1,5 @@
 (function () {
   
-  /* ── Generador Automático de Estrellas (Se mantiene igual) ── */
   const starsContainer = document.getElementById('starsContainer');
   const starCount = 45;
 
@@ -21,20 +20,18 @@
     starsContainer.appendChild(star);
   }
 
-  /* ── Lógica Multi-Canvas ULTRA-OPTIMIZADA para Celular ── */
   const cards = document.querySelectorAll('.scratch-card');
 
   cards.forEach(card => {
     const canvas = card.querySelector('.scratch-canvas');
-    // 'desynchronized: true' le da una pista al navegador para renderizar el canvas directo en baja latencia
     const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true }); 
     let isDrawing = false;
     let lastX = 0;
     let lastY = 0;
-    let rect = null; // Guardará las coordenadas en caché
+    let rect = null; 
 
     function initCanvas() {
-      rect = canvas.getBoundingClientRect(); // Cálculo inicial
+      rect = canvas.getBoundingClientRect(); 
       canvas.width = rect.width;
       canvas.height = rect.height;
 
@@ -52,7 +49,7 @@
       ctx.fillText('✨ ♡ ✨', canvas.width / 2, canvas.height / 2);
     }
 
-    // Función rápida para extraer coordenadas sin recalcular el layout
+
     function getPos(e) {
       let clientX, clientY;
       if (e.touches && e.touches.length > 0) {
@@ -68,38 +65,33 @@
       };
     }
 
-    // Se ejecuta EXACTAMENTE al poner el dedo en la pantalla
     function handleStart(e) {
       isDrawing = true;
-      rect = canvas.getBoundingClientRect(); // Captura limpia solo al iniciar el toque
+      rect = canvas.getBoundingClientRect(); 
       const pos = getPos(e);
       lastX = pos.x;
       lastY = pos.y;
       
-      // Borra el punto inicial exacto del toque
+
       drawScratch(pos.x, pos.y, pos.x, pos.y);
     }
 
-    // Se ejecuta de manera continua al mover el dedo
+
     function handleMove(e) {
       if (!isDrawing) return;
       
       const pos = getPos(e);
-      
-      // Dibuja una línea continua desde la posición anterior a la actual
       drawScratch(lastX, lastY, pos.x, pos.y);
       
-      // Actualiza el último punto registrado
       lastX = pos.x;
       lastY = pos.y;
     }
 
-    // Motor de raspado por vector de línea (La clave de la velocidad)
     function drawScratch(startX, startY, endX, endY) {
       ctx.globalCompositeOperation = 'destination-out';
-      ctx.lineWidth = 36; // Grosor del raspado (equivalente al radio de 18px de antes)
-      ctx.lineCap = 'round';  // Puntas redondeadas
-      ctx.lineJoin = 'round'; // Uniones suavizadas para evitar esquinas rotas
+      ctx.lineWidth = 36; 
+      ctx.lineCap = 'round';  
+      ctx.lineJoin = 'round'; 
       
       ctx.beginPath();
       ctx.moveTo(startX, startY);
@@ -107,16 +99,15 @@
       ctx.stroke();
     }
 
-    // Listeners de Escritorio
+
     canvas.addEventListener('mousedown', handleStart);
     canvas.addEventListener('mousemove', handleMove);
     window.addEventListener('mouseup', () => isDrawing = false);
 
-    // Listeners Táctiles Optimizados
     canvas.addEventListener('touchstart', handleStart);
     canvas.addEventListener('touchmove', (e) => {
       if (isDrawing) {
-        e.preventDefault(); // Evita que la pantalla del cel tiemble o haga scroll involuntario
+        e.preventDefault(); 
         handleMove(e);
       }
     });

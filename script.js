@@ -1,5 +1,6 @@
 (function () {
   
+  /* ── Generador Automático de Estrellas ── */
   const starsContainer = document.getElementById('starsContainer');
   const starCount = 45;
 
@@ -20,11 +21,15 @@
     starsContainer.appendChild(star);
   }
 
+  /* ── Lógica Multi-Canvas CORREGIDA ── */
   const cards = document.querySelectorAll('.scratch-card');
 
   cards.forEach(card => {
     const canvas = card.querySelector('.scratch-canvas');
-    const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true }); 
+    
+    // AQUÍ ESTABA EL ERROR: quitamos el "desynchronized" para que la transparencia funcione perfecto
+    const ctx = canvas.getContext('2d', { alpha: true }); 
+    
     let isDrawing = false;
     let lastX = 0;
     let lastY = 0;
@@ -49,7 +54,6 @@
       ctx.fillText('✨ ♡ ✨', canvas.width / 2, canvas.height / 2);
     }
 
-
     function getPos(e) {
       let clientX, clientY;
       if (e.touches && e.touches.length > 0) {
@@ -72,10 +76,8 @@
       lastX = pos.x;
       lastY = pos.y;
       
-
       drawScratch(pos.x, pos.y, pos.x, pos.y);
     }
-
 
     function handleMove(e) {
       if (!isDrawing) return;
@@ -99,11 +101,12 @@
       ctx.stroke();
     }
 
-
+    // Listeners de Escritorio
     canvas.addEventListener('mousedown', handleStart);
     canvas.addEventListener('mousemove', handleMove);
     window.addEventListener('mouseup', () => isDrawing = false);
 
+    // Listeners Táctiles 
     canvas.addEventListener('touchstart', handleStart);
     canvas.addEventListener('touchmove', (e) => {
       if (isDrawing) {
@@ -114,9 +117,7 @@
     window.addEventListener('touchend', () => isDrawing = false);
 
     window.addEventListener('DOMContentLoaded', initCanvas);
-    window.addEventListener('resize', () => {
-      initCanvas();
-    });
+    window.addEventListener('resize', initCanvas);
   });
 
 })();
